@@ -49,7 +49,7 @@ jobs:
 
       # 4. Install Ant
       - name: Set up Ant
-        uses: cedx/setup-ant@v2
+        uses: cedx/setup-ant@v7
         with:
           version: 1.10.15
 
@@ -126,7 +126,7 @@ jobs:
 
       # 4. Install Ant
       - name: Set up Ant
-        uses: cedx/setup-ant@v2
+        uses: cedx/setup-ant@v7
         with:
           version: 1.10.15
 
