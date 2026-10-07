@@ -17,6 +17,13 @@ public class VoterDashboard extends javax.swing.JFrame {
      */
     public VoterDashboard() {
         initComponents();
+        if (Session.isLoggedIn()) {
+
+        lblWelcome.setText(
+                "Welcome, " +
+                Session.getCurrentUser().getFullName()
+        );
+    }
     }
 
     /**
@@ -28,21 +35,128 @@ public class VoterDashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblWelcome = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        btnViewCandidates = new javax.swing.JButton();
+        btnVote = new javax.swing.JButton();
+        btnResults = new javax.swing.JButton();
+        btnLogout = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setName("pnlDashboard"); // NOI18N
+
+        lblWelcome.setText("Welcome Voter");
+
+        jLabel2.setText("Voting Dashboard");
+
+        btnViewCandidates.setText("VIEW CANDIDATES");
+        btnViewCandidates.addActionListener(this::btnViewCandidatesActionPerformed);
+
+        btnVote.setText("VOTE");
+        btnVote.addActionListener(this::btnVoteActionPerformed);
+
+        btnResults.setText("RESULTS");
+        btnResults.addActionListener(this::btnResultsActionPerformed);
+
+        btnLogout.setText("LOGOUT");
+        btnLogout.addActionListener(this::btnLogoutActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(lblWelcome))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(228, 228, 228)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnVote)
+                            .addComponent(btnResults)
+                            .addComponent(btnLogout)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(199, 199, 199)
+                        .addComponent(btnViewCandidates)))
+                .addContainerGap(201, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(213, 213, 213)
+                    .addComponent(jLabel2)
+                    .addContainerGap(219, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(92, 92, 92)
+                .addComponent(lblWelcome)
+                .addGap(18, 18, 18)
+                .addComponent(btnViewCandidates)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnVote)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnResults)
+                .addGap(18, 18, 18)
+                .addComponent(btnLogout)
+                .addContainerGap(85, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(45, 45, 45)
+                    .addComponent(jLabel2)
+                    .addContainerGap(288, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnVoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoteActionPerformed
+        // TODO add your handling code here:
+        User user = Session.getCurrentUser();
+
+        if (user == null) {
+            return;
+        }
+
+        if (user.hasVoted()) {
+
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "You have already voted.",
+                    "Vote Denied",
+                    javax.swing.JOptionPane.WARNING_MESSAGE
+            );
+
+            return;
+        }
+
+        new VotingPage().setVisible(true);
+
+        this.dispose();
+    }//GEN-LAST:event_btnVoteActionPerformed
+
+    private void btnResultsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResultsActionPerformed
+        // TODO add your handling code here:
+        new ResultsPage().setVisible(true);
+
+        this.dispose();
+    }//GEN-LAST:event_btnResultsActionPerformed
+
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        // TODO add your handling code here:
+        Session.logout();
+
+        new LoginPage().setVisible(true);
+
+        this.dispose();
+    }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnViewCandidatesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewCandidatesActionPerformed
+        // TODO add your handling code here:
+        new VotingPage().setVisible(true);
+
+        this.dispose();
+    }//GEN-LAST:event_btnViewCandidatesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,5 +184,11 @@ public class VoterDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnResults;
+    private javax.swing.JButton btnViewCandidates;
+    private javax.swing.JButton btnVote;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblWelcome;
     // End of variables declaration//GEN-END:variables
 }

@@ -8,14 +8,14 @@ package voting.system;
  *
  * @author nerfe
  */
-public class LoginPage extends javax.swing.JFrame {
+public class AdminLogin extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LoginPage.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AdminLogin.class.getName());
 
     /**
-     * Creates new form LoginPage
+     * Creates new form AdminLogin
      */
-    public LoginPage() {
+    public AdminLogin() {
         initComponents();
     }
 
@@ -29,20 +29,19 @@ public class LoginPage extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        txtUsername = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        txtUsername = new javax.swing.JTextField();
         txtPassword = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
-        btnRegister = new javax.swing.JButton();
-        btnAdminLogin = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setName("pnlLogin"); // NOI18N
+        setName("pnlAdminLogin"); // NOI18N
 
-        jLabel1.setText("Voting System");
+        jLabel1.setText("Admin Login");
 
-        jLabel2.setText("Username:");
+        jLabel2.setText("Usernam:");
 
         jLabel3.setText("Password:");
 
@@ -51,11 +50,8 @@ public class LoginPage extends javax.swing.JFrame {
         btnLogin.setText("LOGIN");
         btnLogin.addActionListener(this::btnLoginActionPerformed);
 
-        btnRegister.setText("REGISTER");
-        btnRegister.addActionListener(this::btnRegisterActionPerformed);
-
-        btnAdminLogin.setText("ADMIN LOGIN");
-        btnAdminLogin.addActionListener(this::btnAdminLoginActionPerformed);
+        btnBack.setText("BACK");
+        btnBack.addActionListener(this::btnBackActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -64,93 +60,68 @@ public class LoginPage extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(224, 224, 224)
+                        .addGap(181, 181, 181)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(200, 200, 200)
-                        .addComponent(btnLogin)
-                        .addGap(28, 28, 28)
-                        .addComponent(btnRegister)))
-                .addContainerGap(188, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(100, 100, 100)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
-                                .addGap(10, 10, 10)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtUsername)
-                            .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
-                        .addGap(169, 169, 169))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnAdminLogin)
-                        .addGap(221, 221, 221))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(135, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnBack)
+                    .addComponent(btnLogin))
+                .addGap(197, 197, 197))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
+                .addGap(37, 37, 37)
                 .addComponent(jLabel1)
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLogin)
-                    .addComponent(btnRegister))
+                .addGap(26, 26, 26)
+                .addComponent(btnLogin)
                 .addGap(18, 18, 18)
-                .addComponent(btnAdminLogin)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addComponent(btnBack)
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAdminLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminLoginActionPerformed
-        // TODO add your handling code here:
-        new AdminLogin().setVisible(true);
-
-        this.dispose();
-    }//GEN-LAST:event_btnAdminLoginActionPerformed
-
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        String username = txtUsername.getText().trim();
+        String username =
+            txtUsername.getText().trim();
 
         String password =
                 new String(txtPassword.getPassword());
 
-        if (username.isEmpty() || password.isEmpty()) {
-
-            javax.swing.JOptionPane.showMessageDialog(
-                    this,
-                    "Please enter username and password.",
-                    "Login Error",
-                    javax.swing.JOptionPane.ERROR_MESSAGE
-            );
-
-            return;
-        }
-
         User user =
                 DataManager.loginUser(username, password);
 
-        if (user == null) {
+        if (user == null
+                || !user.getRole().equalsIgnoreCase("ADMIN")) {
 
             javax.swing.JOptionPane.showMessageDialog(
                     this,
-                    "Invalid username or password.",
-                    "Login Failed",
+                    "Invalid administrator credentials.",
+                    "Admin Login Failed",
                     javax.swing.JOptionPane.ERROR_MESSAGE
             );
 
@@ -159,24 +130,17 @@ public class LoginPage extends javax.swing.JFrame {
 
         Session.login(user);
 
-        if (user.getRole().equalsIgnoreCase("ADMIN")) {
-
-            new AdminDashboard().setVisible(true);
-
-        } else {
-
-            new VoterDashboard().setVisible(true);
-        }
+        new AdminDashboard().setVisible(true);
 
         this.dispose();
     }//GEN-LAST:event_btnLoginActionPerformed
 
-    private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-        new SignUpPage().setVisible(true);
+        new LoginPage().setVisible(true);
 
         this.dispose();
-    }//GEN-LAST:event_btnRegisterActionPerformed
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -200,13 +164,12 @@ public class LoginPage extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new LoginPage().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new AdminLogin().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdminLogin;
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnLogin;
-    private javax.swing.JButton btnRegister;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

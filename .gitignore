@@ -1,0 +1,9 @@
+/build/ /dist/
+*.class
+.nb-gradle/ .idea/
+.DS_Store Thumbs.db
+*.log *.tmp
+hs_err_pid*
+nbproject/private/ nbproject/private/*
+classes/
+*.bak

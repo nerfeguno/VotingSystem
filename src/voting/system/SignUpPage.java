@@ -28,21 +28,181 @@ public class SignUpPage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtFullName = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtUsername = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JPasswordField();
+        jLabel5 = new javax.swing.JLabel();
+        txtConfirmPassword = new javax.swing.JPasswordField();
+        btnRegister = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setName("pnlSignup"); // NOI18N
+
+        jLabel1.setText("Create Account");
+
+        jLabel2.setText("Full Name:");
+
+        jLabel3.setText("Username:");
+
+        jLabel4.setText("Password:");
+
+        txtPassword.setText("jPasswordField1");
+
+        jLabel5.setText("Confirm:");
+
+        txtConfirmPassword.setText("jPasswordField1");
+
+        btnRegister.setText("REGISTER");
+        btnRegister.addActionListener(this::btnRegisterActionPerformed);
+
+        btnBack.setText("BACK TO LOGIN");
+        btnBack.addActionListener(this::btnBackActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(250, 250, 250)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(89, 89, 89)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtFullName)
+                            .addComponent(txtUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
+                            .addComponent(txtPassword)
+                            .addComponent(txtConfirmPassword))))
+                .addContainerGap(130, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnRegister)
+                        .addGap(235, 235, 235))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnBack)
+                        .addGap(218, 218, 218))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtFullName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btnRegister)
+                .addGap(18, 18, 18)
+                .addComponent(btnBack)
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        new LoginPage().setVisible(true);
+
+        this.dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
+        // TODO add your handling code here:
+        String fullName =
+            txtFullName.getText().trim();
+
+        String username =
+                txtUsername.getText().trim();
+
+        String password =
+                new String(txtPassword.getPassword());
+
+        String confirmPassword =
+                new String(txtConfirmPassword.getPassword());
+
+        if (fullName.isEmpty()
+                || username.isEmpty()
+                || password.isEmpty()
+                || confirmPassword.isEmpty()) {
+
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Please complete all fields.",
+                    "Registration Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE
+            );
+
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
+
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Passwords do not match.",
+                    "Registration Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE
+            );
+
+            return;
+        }
+
+        boolean registered =
+                DataManager.registerUser(
+                        fullName,
+                        username,
+                        password
+                );
+
+        if (!registered) {
+
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Username already exists.",
+                    "Registration Error",
+                    javax.swing.JOptionPane.ERROR_MESSAGE
+            );
+
+            return;
+        }
+
+        javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "Registration successful!"
+        );
+
+        new LoginPage().setVisible(true);
+
+        this.dispose();
+    }//GEN-LAST:event_btnRegisterActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,5 +230,16 @@ public class SignUpPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnRegister;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPasswordField txtConfirmPassword;
+    private javax.swing.JTextField txtFullName;
+    private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

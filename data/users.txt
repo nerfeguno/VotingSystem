@@ -1,0 +1,2 @@
+1|Administrator|admin|admin123|false|ADMIN
+2|Nerfe Guno|nerfe|Gwapoko|true|VOTER
