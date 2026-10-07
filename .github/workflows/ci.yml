@@ -5,7 +5,9 @@ on:
     branches:
       - main
       - develop
-    # Trigger the workflow when a version tag is pushed (e.g., v1.0.0)
+
+    # Run when a version tag is pushed
+    # Example: v1.0.0
     tags:
       - 'v*'
 
@@ -14,49 +16,261 @@ on:
       - main
       - develop
 
-# Grant the workflow permission to create a release
 permissions:
   contents: write
 
 jobs:
-  build:
 
-    name: Build and Test Voting System
+  # ============================================================
+  # BUILD WINDOWS
+  # ============================================================
+  build-windows:
 
-    runs-on: ubuntu-latest
+    name: Build Voting System - Windows
+
+    runs-on: windows-latest
 
     steps:
 
-      # 1. Download repository
+      # 1. Checkout repository
       - name: Checkout source code
         uses: actions/checkout@v4
 
       # 2. Install Java 21
-      - name: Set up JDK
+      - name: Set up JDK 21
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '21'
 
-      # 3. Check Java version
+      # 3. Check Java
       - name: Check Java version
         run: java -version
 
-      # 4. Build project using NetBeans Ant
+      # 4. Install Ant
+      - name: Set up Ant
+        uses: cedx/setup-ant@v2
+        with:
+          version: 1.10.15
+
+      # 5. Build NetBeans Ant project
       - name: Build project
         run: ant clean jar
 
-      # 5. Upload generated JAR as a workflow artifact
-      - name: Upload build artifact
+      # 6. Find generated JAR
+      - name: List build files
+        shell: bash
+        run: |
+          echo "Generated files:"
+          find dist -type f
+
+      # 7. Create Windows EXE
+      - name: Create Windows EXE
+        shell: bash
+        run: |
+          mkdir -p package
+
+          JAR_FILE=$(find dist -name "*.jar" | head -n 1)
+
+          echo "Using JAR: $JAR_FILE"
+
+          jpackage \
+            --type exe \
+            --name VotingSystem \
+            --input dist \
+            --main-jar "$(basename "$JAR_FILE")" \
+            --main-class Main \
+            --dest package \
+            --app-version 1.0.0 \
+            --vendor "Voting System" \
+            --description "Voting System Application" \
+            --win-menu \
+            --win-shortcut \
+            --win-dir-chooser
+
+      # 8. Upload Windows files
+      - name: Upload Windows artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: VotingSystem-JAR
-          path: dist/*.jar
+          name: VotingSystem-Windows
+          path: |
+            dist/*.jar
+            package/*.exe
 
-      # 6. Publish GitHub Release (Only runs when a tag is pushed)
+
+  # ============================================================
+  # BUILD LINUX
+  # ============================================================
+  build-linux:
+
+    name: Build Voting System - Linux
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # 1. Checkout repository
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      # 2. Install Java 21
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      # 3. Check Java
+      - name: Check Java version
+        run: java -version
+
+      # 4. Install Ant
+      - name: Set up Ant
+        uses: cedx/setup-ant@v2
+        with:
+          version: 1.10.15
+
+      # 5. Build NetBeans Ant project
+      - name: Build project
+        run: ant clean jar
+
+      # 6. Find generated JAR
+      - name: List build files
+        run: |
+          echo "Generated files:"
+          find dist -type f
+
+      # 7. Install Linux packaging dependencies
+      - name: Install Linux packaging tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fakeroot
+
+      # 8. Create Linux DEB package
+      - name: Create Linux DEB
+        run: |
+
+          mkdir -p package
+
+          JAR_FILE=$(find dist -name "*.jar" | head -n 1)
+
+          echo "Using JAR: $JAR_FILE"
+
+          jpackage \
+            --type deb \
+            --name votingsystem \
+            --input dist \
+            --main-jar "$(basename "$JAR_FILE")" \
+            --main-class Main \
+            --dest package \
+            --app-version 1.0.0 \
+            --vendor "Voting System" \
+            --description "Voting System Application" \
+            --linux-shortcut
+
+      # 9. Create Linux AppImage
+      - name: Create Linux AppImage
+        run: |
+
+          mkdir -p appimage
+
+          JAR_FILE=$(find dist -name "*.jar" | head -n 1)
+
+          echo "Using JAR: $JAR_FILE"
+
+          jpackage \
+            --type app-image \
+            --name VotingSystem \
+            --input dist \
+            --main-jar "$(basename "$JAR_FILE")" \
+            --main-class Main \
+            --dest appimage \
+            --app-version 1.0.0 \
+            --vendor "Voting System" \
+            --description "Voting System Application"
+
+      # 10. Upload Linux files
+      - name: Upload Linux artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: VotingSystem-Linux
+          path: |
+            dist/*.jar
+            package/*.deb
+            appimage/VotingSystem/
+
+
+  # ============================================================
+  # GITHUB RELEASE
+  # ============================================================
+  release:
+
+    name: Publish Voting System Release
+
+    needs:
+      - build-windows
+      - build-linux
+
+    runs-on: ubuntu-latest
+
+    # Only create a release when a tag is pushed
+    if: startsWith(github.ref, 'refs/tags/')
+
+    steps:
+
+      # 1. Download Windows artifact
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: VotingSystem-Windows
+          path: release/windows
+
+      # 2. Download Linux artifact
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: VotingSystem-Linux
+          path: release/linux
+
+      # 3. Prepare release files
+      - name: Prepare release files
+        run: |
+
+          mkdir -p release-files
+
+          echo "Windows files:"
+          find release/windows -type f
+
+          echo "Linux files:"
+          find release/linux -type f
+
+          # Windows EXE
+          find release/windows \
+            -name "*.exe" \
+            -exec cp {} release-files/ \;
+
+          # JAR
+          find release/windows \
+            -name "*.jar" \
+            -exec cp {} release-files/ \;
+
+          # Linux DEB
+          find release/linux \
+            -name "*.deb" \
+            -exec cp {} release-files/ \;
+
+          # Create Linux AppImage archive
+          if [ -d "release/linux/VotingSystem" ]; then
+            tar -czf release-files/VotingSystem-Linux.tar.gz \
+              -C release/linux VotingSystem
+          fi
+
+          echo "Final release files:"
+          ls -lh release-files
+
+      # 4. Publish GitHub Release
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: dist/*.jar
+          files: release-files/*
           generate_release_notes: true
