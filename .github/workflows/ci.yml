@@ -24,13 +24,12 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      # 2. Install Java
+      # 2. Install Java (Updated to v5 and removed unsupported Ant cache)
       - name: Set up JDK
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
-          cache: ant
 
       # 3. Check Java version
       - name: Check Java version
